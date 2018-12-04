@@ -33,9 +33,10 @@ sudo tar xvf file.tar.gz
 ```
 
 ### delete files in AWS S3 Bitbucket
-
+```
 import java.net.URI
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 
 FileSystem.get(new URI("s3n://bucket"), sc.hadoopConfiguration).delete(new Path("s3n://bucket/path_to_delete"), true)
+```
