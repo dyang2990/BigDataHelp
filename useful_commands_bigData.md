@@ -48,11 +48,9 @@ import org.apache.hadoop.fs.Path
 import org.apache.commons.io.FileUtils
 import org.apache.spark.SparkSession
 
-object escunion{
+object projunion{
   def main(args: Array[String]): Unit = {
-
-    //check to delete the existing files or folder
-    
+  
     val accessKeyId = ""
     val secretAccessKey = ""
 	//Instantiate Spark Session
