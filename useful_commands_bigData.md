@@ -92,35 +92,6 @@ object projunion{
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 https://github.com/djannot/ecs-p3/blob/master/spark/spark.md
 
 
