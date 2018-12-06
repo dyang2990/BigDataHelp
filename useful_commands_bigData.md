@@ -53,10 +53,10 @@ object escunion{
 
     //check to delete the existing files or folder
     
-    val accessKeyId = "ebia-vol-test-user"
-    val secretAccessKey = "qsUJepZHhevNxhyqfXeM97vJ188hkdvajjmga5/b"
+    val accessKeyId = ""
+    val secretAccessKey = ""
 	//Instantiate Spark Session
-	val sparkConf = new SparkConf().setAppName("SparkECS").setMaster("local").getOrCreate()
+	val sparkConf = new SparkConf().setAppName("nameofproj").setMaster("local").getOrCreate()
     val sc: SparkContext = new SparkContext(sparkConf)
         val spark = SparkSession
             .builder
@@ -73,20 +73,20 @@ object escunion{
             .config("spark.speculation", "false")
             .getOrCreate
 
-    // FileSystem.get(new URI("s3a://ebia-vol-test/SparkECSCoalesce"), sc.hadoopConfiguration).delete(new Path("s3a://ebia-vol-test/SparkECSCoalesce"), true)
-    FileSystem.get(new URI("s3a://ebia-vol-test/SparkECSCoalesce"), sc.hadoopConfiguration).delete(new Path("s3a://ebia-vol-test/SparkECSCoalesce"), true)
+    // FileSystem.get(new URI("s3a://pathtofile"), sc.hadoopConfiguration).delete(new Path("s3a://pathtofile"), true)
+    FileSystem.get(new URI("s3a://pathtofile"), sc.hadoopConfiguration).delete(new Path("s3a://pathtofile"), true)
       // sc.hadoopConfiguration.set("fs.s3a.awsAccessKeyId", accessKeyId)
       // sc.hadoopConfiguration.set("fs.s3a.awsSecretAccessKey",secretAccessKey)
 
 
-    val gd_path = sc.textFile("s3a://ebia-vol-test/gd_lyrics.txt")
-    val jack_path = sc.textFile("s3a://ebia-vol-test/jack_straw.txt")
+    val path1 = sc.textFile("s3a://pathtofile1")
+    val path2 = sc.textFile("s3a://pathtofile2")
 
-    val rddunion = gd_path.union(jack_path)
+    val rddunion = path1.union(path2)
 	
-      rddunion.coalesce(1).saveAsTextFile("s3a://ebia-vol-test/SparkECSCoalesce")
+      rddunion.coalesce(1).saveAsTextFile("s3a://pathtofile")
 
-    val verify = sc.textFile("s3a://ebia-vol-test/SparkECSCoalesce/part*")
+    val verify = sc.textFile("s3a://pathtofile/part*")
       verify.count()
       verify.collect().map(line => println(line))
 
@@ -124,18 +124,6 @@ object escunion{
 
 
 https://github.com/djannot/ecs-p3/blob/master/spark/spark.md
-
-val gd_path = sc.textFile("s3a://ebia-vol-test/gd_lyrics.txt")
-val row_gd = gd_path.map(line => Row.fromSeq(line.split(",", -1)))
-var df_gd = sqlContext.createDataFrame(row_gd, schema)
-
-val jack_path = sc.textFile("s3a://ebia-vol-test/jack_straw.txt")
-val row_jack = jack_path.map(line => Row.fromSeq(line.split(",", -1)))
-var df_jack = sqlContext.createDataFrame(row_jack, schema)
-
-val df3 = df_gd.join(df_jack)
-
-val df1 = sqlContext.createDataFrame(rowRdd1, new StructType(schema.tail.toArray))
 
 
 https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/examples-s3-objects.html
